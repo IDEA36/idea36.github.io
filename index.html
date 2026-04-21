@@ -16,19 +16,10 @@
         
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         html, body { overflow-x: hidden; width: 100%; margin: 0; padding: 0; background-color: #000; }
-        body { font-family: 'Cairo', sans-serif; color: white; line-height: 1.6; }
+        body { font-family: 'Cairo', sans-serif; color: white; line-height: 1.6; background-color: #000; }
 
-        .stars-background {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-            background: #000; z-index: 0; pointer-events: none;
-        }
-        .star {
-            position: absolute; background: white; border-radius: 50%;
-            opacity: 0.3; animation: twinkle var(--duration) infinite ease-in-out;
-        }
-        @keyframes twinkle { 0%, 100% { opacity: 0.2; transform: scale(1); } 50% { opacity: 0.9; transform: scale(1.2); } }
-
-        .bg-gradient { position: fixed; width: 100%; height: 100%; z-index: -1; top: 0; left: 0; background: radial-gradient(circle at 20% 30%, #151109 0%, #050505 100%); }
+        /* تم إزالة كود النجوم والاكتفاء بالخلفية السوداء */
+        .bg-black { position: fixed; width: 100%; height: 100%; z-index: -1; top: 0; left: 0; background: #000; }
         
         section { padding: 60px 7%; display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; position: relative; z-index: 1; }
         h1 { font-size: clamp(2.2rem, 8vw, 4rem); color: var(--gold); font-weight: 900; letter-spacing: -1px; }
@@ -50,9 +41,8 @@
 
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; width: 100%; margin-top: 30px; }
         
-        /* التعديل المطلوب: تكبير الشعارات وجعلها شفافة */
         .brand-img { 
-            width: 160px; /* حجم أكبر وأوضح */
+            width: 160px; 
             height: 160px; 
             object-fit: contain; 
             margin-bottom: 15px; 
@@ -79,8 +69,7 @@
 </head>
 <body>
 
-    <div class="stars-background" id="star-container"></div>
-    <div class="bg-gradient"></div>
+    <div class="bg-black"></div>
 
     <a href="https://wa.me/966566110897" class="wa-float" target="_blank">
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="30">
@@ -255,19 +244,6 @@
 
     <script>
         AOS.init({ duration: 1000, once: true });
-
-        const container = document.getElementById('star-container');
-        for (let i = 0; i < 200; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
-            const size = Math.random() * 2 + 1;
-            star.style.width = size + 'px';
-            star.style.height = size + 'px';
-            star.style.top = Math.random() * 100 + '%';
-            star.style.left = Math.random() * 100 + '%';
-            star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
-            container.appendChild(star);
-        }
 
         const counters = document.querySelectorAll('.stat-number');
         const observer = new IntersectionObserver(entries => {
