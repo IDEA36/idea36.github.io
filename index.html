@@ -11,12 +11,6 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 
-    <meta property="og:title" content="إبراهيم الزيد | IDEA Business">
-    <meta property="og:description" content="منظومة IDEA الرقمية - نصنع مستقبلك التجاري باحترافية.">
-    <meta property="og:image" content="https://idea33.netlify.app/logo.png">
-    <meta property="og:url" content="https://idea33.netlify.app/">
-    <meta property="og:type" content="website">
-
     <style>
         :root { --gold: #f9b336; --dark: #050505; --glass: rgba(255, 255, 255, 0.02); }
         
@@ -24,10 +18,10 @@
         html, body { overflow-x: hidden; width: 100%; margin: 0; padding: 0; background-color: #000; }
         body { font-family: 'Cairo', sans-serif; color: white; line-height: 1.6; }
 
-        /* تأثير نجوم الروز رايز */
+        /* خلفية النجوم - تغطي كامل الصفحة وتتحرك مع التمرير */
         .stars-background {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: transparent; z-index: 0; pointer-events: none;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: #000; z-index: 0; pointer-events: none;
         }
         .star {
             position: absolute; background: white; border-radius: 50%;
@@ -36,9 +30,7 @@
         @keyframes twinkle { 0%, 100% { opacity: 0.2; transform: scale(1); } 50% { opacity: 0.9; transform: scale(1.2); } }
 
         .bg-gradient { position: fixed; width: 100%; height: 100%; z-index: -1; top: 0; left: 0; background: radial-gradient(circle at 20% 30%, #151109 0%, #050505 100%); }
-        .bg-glow { position: absolute; width: 300px; height: 300px; background: var(--gold); filter: blur(150px); opacity: 0.05; border-radius: 50%; z-index: -1; animation: move 20s infinite alternate; }
-        @keyframes move { from { top: 10%; left: 10%; } to { top: 60%; left: 80%; } }
-
+        
         section { padding: 60px 7%; display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; position: relative; z-index: 1; }
         h1 { font-size: clamp(2.2rem, 8vw, 4rem); color: var(--gold); font-weight: 900; letter-spacing: -1px; }
         h2 { font-size: clamp(1.6rem, 6vw, 2.4rem); color: var(--gold); margin-bottom: 40px; font-weight: 800; }
@@ -46,9 +38,11 @@
         .glass-card {
             background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(249, 179, 54, 0.1); border-radius: 20px; padding: 30px;
-            transition: 0.4s ease; width: 100%; position: relative;
+            transition: 0.4s ease; width: 100%; position: relative; margin-bottom: 25px;
         }
         .glass-card:hover { border-color: var(--gold); box-shadow: 0 0 30px rgba(249, 179, 54, 0.05); }
+
+        .vertical-stack { display: flex; flex-direction: column; gap: 20px; width: 100%; max-width: 800px; }
 
         .mega-story { max-width: 850px; text-align: right; width: 100%; }
         .year-block { margin-bottom: 50px; border-right: 2px solid var(--gold); padding-right: 25px; }
@@ -58,14 +52,14 @@
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; width: 100%; margin-top: 30px; }
         .brand-img { width: 100px; height: 100px; object-fit: contain; margin-bottom: 10px; mix-blend-mode: screen; filter: contrast(1.1) brightness(1.1); }
         .stat-number { font-size: clamp(2.5rem, 7vw, 3.5rem); font-weight: 900; color: var(--gold); line-height: 1; }
-        .sales-img { width: 100%; max-width: 480px; border-radius: 15px; border: 1px solid var(--gold); margin: 10px 0; }
+        .sales-img { width: 100%; max-width: 480px; border-radius: 15px; border: 1px solid var(--gold); margin: 15px 0; }
 
         .btn-gold { background: var(--gold); color: black; padding: 12px 35px; border-radius: 50px; font-weight: 700; font-size: 1rem; border: none; cursor: pointer; transition: 0.3s; text-decoration: none; display: inline-block; }
         .btn-gold:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(249, 179, 54, 0.2); }
 
         .wa-float { position: fixed; bottom: 30px; left: 30px; background: #25d366; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 1000; box-shadow: 0 8px 15px rgba(0,0,0,0.4); }
 
-        /* تنسيق التحليلات */
+        /* تنسيق التحليلات الأصلي */
         .performance-card { background: var(--glass); border: 1px solid rgba(249, 179, 54, 0.2); border-radius: 20px; padding: 24px; width: 100%; max-width: 350px; transition: 0.3s; direction: ltr; }
         .status-live { background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; display: flex; align-items: center; gap: 5px; }
         .dot { width: 6px; height: 6px; background: #10b981; border-radius: 50%; }
@@ -73,18 +67,12 @@
         .bar { width: 100%; background: rgba(249, 179, 54, 0.1); border-radius: 4px; position: relative; height: 100%; }
         .bar-fill { position: absolute; bottom: 0; width: 100%; background: var(--gold); border-radius: 4px; transition: 1s; }
 
-        @media (max-width: 768px) {
-            section { padding: 40px 20px; }
-            .grid { grid-template-columns: 1fr 1fr; gap: 15px; }
-            .grid .glass-card:last-child { grid-column: span 2; }
-        }
     </style>
 </head>
 <body>
 
     <div class="stars-background" id="star-container"></div>
     <div class="bg-gradient"></div>
-    <div class="bg-glow"></div>
 
     <a href="https://wa.me/966566110897" class="wa-float" target="_blank">
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="30">
@@ -140,15 +128,14 @@
             </div>
             <div class="year-block" data-aos="fade-right">
                 <h3>رسالة IDEA: كيف تبدا من لا شيئ</h3>
-                <p>"من صغر السن.. بنينا للمجد فن"
-                    في سادس ابتدائي، يوم كان غيري يطرد السراب، كنت أنا أطوع الصعاب. بدأت بـ 50 ريال، وبدل ما تروح في 'دروب الضياع'، خليتها هي 'ساس المتاع' وقاعدةٍ للمشروع وارتفاع. حفرت في ميدان التجارة بصبرٍ يهد الجبال، وتعلّمت إن السوق ما يعترف بالأعمار، بل يركع للإصرار. واليوم، تقف منظومة 'IDEA' كـ 'برهانٍ جلي' على طموحٍ ما يعرف التخلي. نصيحتي لك يا طموح: لا تحقر القليل اللي بيدك، تراه هو اللي يصنع الكثير في غدك، ومن 'ثبت في البداية'.. استحق 'فخر النهاية'. ابدأ بأبسط التفاصيل، فمشوار الألف ميل، يبيله قلبٍ صامل وعقلٍ ثقيل.</p>
+                <p>"من صغر السن.. بنينا للمجد فن" في سادس ابتدائي، يوم كان غيري يطرد السراب، كنت أنا أطوع الصعاب. بدأت بـ 50 ريال، وبدل ما تروح في 'دروب الضياع'، خليتها هي 'ساس المتاع' وقاعدةٍ للمشروع وارتفاع. حفرت في ميدان التجارة بصبرٍ يهد الجبال، وتعلّمت إن السوق ما يعترف بالأعمار، بل يركع للإصرار. واليوم، تقف منظومة 'IDEA' كـ 'برهانٍ جلي' على طموحٍ ما يعرف التخلي. نصيحتي لك يا طموح: لا تحقر القليل اللي بيدك، تراه هو اللي يصنع الكثير في غدك، ومن 'ثبت في البداية'.. استحق 'فخر النهاية'. ابدأ بأبسط التفاصيل، فمشوار الألف ميل، يبيله قلبٍ صامل وعقلٍ ثقيل.</p>
             </div>
         </div>
     </section>
 
     <section>
         <h2>منظومة IDEA</h2>
-        <div class="grid">
+        <div class="vertical-stack">
             <div class="glass-card"><img src="idea.png" class="brand-img"><h3>IDEA Services</h3></div>
             <div class="glass-card"><img src="thwani.png" class="brand-img"><h3>Thwani Store</h3></div>
             <div class="glass-card"><img src="Vail.png" class="brand-img"><h3>Vail Brand</h3></div>
@@ -193,7 +180,7 @@
 
     <section>
         <h2>أبرز الأعمال</h2>
-        <div class="grid">
+        <div class="vertical-stack">
             <div class="glass-card"><img src="كويبو شعار.png" class="brand-img"><h3>CUBO Store</h3></div>
             <div class="glass-card"><img src="شعار ديب.png" class="brand-img"><h3>Deep Ocean</h3></div>
             <div class="glass-card"><img src="شعار بيرت.png" class="brand-img"><h3>Pert Brand</h3></div>
@@ -202,16 +189,16 @@
 
     <section>
         <h2> اراء عملاء IDEA</h2>
-        <div class="grid">
+        <div class="vertical-stack">
             <div class="glass-card" data-aos="zoom-in">
                 <p>"لمسات فريق آيديا غيرت مفهومي عن المتاجر. التنسيق طالع فخم جداً وباحترافية عالية."</p>
                 <span style="color: var(--gold); font-weight: bold; margin-top: 15px; display: block;">- أبو فهد</span>
             </div>
-            <div class="glass-card" data-aos="zoom-in" data-aos-delay="200">
+            <div class="glass-card" data-aos="zoom-in">
                 <p>"إبراهيم الزيد ممارس حقيقي، النصيحة اللي يقدمها توفر وقت كثير وتطلعك بنتيجة احترافية تليق بالبراند."</p>
                 <span style="color: var(--gold); font-weight: bold; margin-top: 15px; display: block;">- متجر فاي</span>
             </div>
-            <div class="glass-card" data-aos="zoom-in" data-aos-delay="400">
+            <div class="glass-card" data-aos="zoom-in">
                 <p>"على الاسعار الي مقدمينها ما تتوقع الخدمة ولاكن المقابل يصدمك"</p>
                 <span style="color: var(--gold); font-weight: bold; margin-top: 15px; display: block;">- متجر منارة</span>
             </div>
@@ -228,33 +215,32 @@
 
     <section>
         <h2 style="text-align: center; margin-bottom: 40px;">الأسئلة الشائعة</h2>
-        <div style="max-width: 800px; margin: 0 auto; text-align: right; width: 100%;">
-            <details style="background: var(--glass); border: 1px solid rgba(249, 179, 54, 0.1); border-radius: 12px; margin-bottom: 15px; padding: 15px; cursor: pointer;">
-                <summary style="font-weight: 700; color: var(--gold); list-style: none; display: flex; justify-content: space-between;">كيف أضمن حقي مع منظومة IDEA؟ <span>←</span></summary>
+        <div class="vertical-stack" style="text-align: right;">
+            <details class="glass-card" style="padding: 15px; cursor: pointer;">
+                <summary style="font-weight: 700; color: var(--gold); list-style: none;">كيف أضمن حقي مع منظومة IDEA؟</summary>
                 <div style="padding-top: 15px; color: #ccc;">نحن نلتزم بتقديم خدماتنا وفق أعلى معايير الموثوقية، مع تقديم ضمانات حقيقية على جودة التنفيذ والدعم الفني المستمر لكل عملائنا.</div>
             </details>
-            <details style="background: var(--glass); border: 1px solid rgba(249, 179, 54, 0.1); border-radius: 12px; margin-bottom: 15px; padding: 15px; cursor: pointer;">
-                <summary style="font-weight: 700; color: var(--gold); list-style: none; display: flex; justify-content: space-between;">هل تقدمون خدمات الاستشارات للتجار الجدد؟ <span>←</span></summary>
+            <details class="glass-card" style="padding: 15px; cursor: pointer;">
+                <summary style="font-weight: 700; color: var(--gold); list-style: none;">هل تقدمون خدمات الاستشارات للتجار الجدد؟</summary>
                 <div style="padding-top: 15px; color: #ccc;">بكل تأكيد، تخصصنا هو مرافقتك من مرحلة الفكرة إلى التنفيذ الكامل؛ نجهز لك المتجر، الهوية التجارية، والربط التقني.</div>
             </details>
-            <details style="background: var(--glass); border: 1px solid rgba(249, 179, 54, 0.1); border-radius: 12px; margin-bottom: 15px; padding: 15px; cursor: pointer;">
-                <summary style="font-weight: 700; color: var(--gold); list-style: none; display: flex; justify-content: space-between;">ما هي طرق الدفع المتاحة؟ <span>←</span></summary>
+            <details class="glass-card" style="padding: 15px; cursor: pointer;">
+                <summary style="font-weight: 700; color: var(--gold); list-style: none;">ما هي طرق الدفع المتاحة؟</summary>
                 <div style="padding-top: 15px; color: #ccc;">ندعم كافة طرق الدفع الآمنة والمعتمدة في المنصات الرسمية لضمان تجربة شراء سهلة وموثوقة لعملائنا.</div>
             </details>
         </div>
 
-        <div style="margin-top: 50px; padding: 30px; border: 1px dashed var(--gold); border-radius: 20px; text-align: center; background: rgba(249, 179, 54, 0.02); width: 100%;">
-            <h3 style="color: var(--gold); margin-bottom: 15px;">هل تبحث عن استشارة خاصة؟</h3>
-            <p>نساعدك في رسم استراتيجية متجرك القادم واختيار التوجه الصحيح مع خبراء IDEA.</p>
-            <br>
+        <div style="margin-top: 50px; padding: 40px; border: 1px dashed var(--gold); border-radius: 20px; text-align: center; background: rgba(249, 179, 54, 0.05); width: 100%; max-width: 800px;" data-aos="fade-up">
+            <h3 style="color: var(--gold); margin-bottom: 15px; font-size: 1.8rem;">هل تبحث عن استشارة خاصة؟</h3>
+            <p style="color: #fff; margin-bottom: 25px;">نساعدك في رسم استراتيجية متجرك القادم واختيار التوجه الصحيح مع خبراء IDEA.</p>
             <a href="https://wa.me/966566110897?text=أريد+طلب+استشارة+تجارية" class="btn-gold">طلب استشارة تجارية</a>
         </div>
     </section>
 
     <section>
-        <div class="glass-card" style="border: 1px solid var(--gold);">
+        <div class="glass-card" style="border: 1px solid var(--gold); max-width: 800px;">
             <h2>ابدأ قصة نجاحك مع IDEA</h2>
-            <p style="margin-bottom: 25px; color: #888;">فريقنا جاهز لتحويل رؤيتك إلى واقع رقمي مبهر ابني متجرك خلال ايام .</p>
+            <p style="margin-bottom: 25px; color: #888;">فريقنا جاهز لتحويل رؤيتك إلى واقع رقمي مبهر. ابني متجرك خلال أيام.</p>
             <button class="btn-gold" onclick="celebrate()">تواصل معنا الآن</button>
         </div>
     </section>
@@ -262,9 +248,8 @@
     <script>
         AOS.init({ duration: 1000, once: true });
 
-        // إنشاء نجوم الروز رايز
         const container = document.getElementById('star-container');
-        for (let i = 0; i < 150; i++) {
+        for (let i = 0; i < 200; i++) {
             const star = document.createElement('div');
             star.className = 'star';
             const size = Math.random() * 2 + 1;
@@ -276,7 +261,6 @@
             container.appendChild(star);
         }
 
-        // عداد الإحصائيات
         const counters = document.querySelectorAll('.stat-number');
         const observer = new IntersectionObserver(entries => {
             entries.forEach(entry => {
@@ -291,8 +275,7 @@
                             setTimeout(update, 20);
                         } else { entry.target.innerText = target + "+"; }
                     };
-                    update();
-                    observer.unobserve(entry.target);
+                    update(); observer.unobserve(entry.target);
                 }
             });
         }, { threshold: 0.5 });
