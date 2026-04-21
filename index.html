@@ -18,7 +18,6 @@
         html, body { overflow-x: hidden; width: 100%; margin: 0; padding: 0; background-color: #000; }
         body { font-family: 'Cairo', sans-serif; color: white; line-height: 1.6; }
 
-        /* خلفية النجوم - تغطي كامل الصفحة وتتحرك مع التمرير */
         .stars-background {
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
             background: #000; z-index: 0; pointer-events: none;
@@ -50,7 +49,17 @@
         .year-block p { font-size: 1rem; color: #bbb; margin-top: 10px; line-height: 1.8; }
 
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; width: 100%; margin-top: 30px; }
-        .brand-img { width: 100px; height: 100px; object-fit: contain; margin-bottom: 10px; mix-blend-mode: screen; filter: contrast(1.1) brightness(1.1); }
+        
+        /* التعديل المطلوب: تكبير الشعارات وجعلها شفافة */
+        .brand-img { 
+            width: 160px; /* حجم أكبر وأوضح */
+            height: 160px; 
+            object-fit: contain; 
+            margin-bottom: 15px; 
+            background: transparent !important; 
+            filter: contrast(1.05);
+        }
+        
         .stat-number { font-size: clamp(2.5rem, 7vw, 3.5rem); font-weight: 900; color: var(--gold); line-height: 1; }
         .sales-img { width: 100%; max-width: 480px; border-radius: 15px; border: 1px solid var(--gold); margin: 15px 0; }
 
@@ -59,7 +68,6 @@
 
         .wa-float { position: fixed; bottom: 30px; left: 30px; background: #25d366; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 1000; box-shadow: 0 8px 15px rgba(0,0,0,0.4); }
 
-        /* تنسيق التحليلات الأصلي */
         .performance-card { background: var(--glass); border: 1px solid rgba(249, 179, 54, 0.2); border-radius: 20px; padding: 24px; width: 100%; max-width: 350px; transition: 0.3s; direction: ltr; }
         .status-live { background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; display: flex; align-items: center; gap: 5px; }
         .dot { width: 6px; height: 6px; background: #10b981; border-radius: 50%; }
@@ -128,7 +136,7 @@
             </div>
             <div class="year-block" data-aos="fade-right">
                 <h3>رسالة IDEA: كيف تبدا من لا شيئ</h3>
-                <p>"من صغر السن.. بنينا للمجد فن" في سادس ابتدائي، يوم كان غيري يطرد السراب، كنت أنا أطوع الصعاب. بدأت بـ 50 ريال، وبدل ما تروح في 'دروب الضياع'، خليتها هي 'ساس المتاع' وقاعدةٍ للمشروع وارتفاع. حفرت في ميدان التجارة بصبرٍ يهد الجبال، وتعلّمت إن السوق ما يعترف بالأعمار، بل يركع للإصرار. واليوم، تقف منظومة 'IDEA' كـ 'برهانٍ جلي' على طموحٍ ما يعرف التخلي. نصيحتي لك يا طموح: لا تحقر القليل اللي بيدك، تراه هو اللي يصنع الكثير في غدك، ومن 'ثبت في البداية'.. استحق 'فخر النهاية'. ابدأ بأبسط التفاصيل، فمشوار الألف ميل، يبيله قلبٍ صامل وعقلٍ ثقيل.</p>
+                <p>"من صغر السن.. بنينا للمجد فن" في سادس ابتدائي، يوم كان غيري يطرد السراب، كنت أنا أطوع الصعاب. بدأت بـ 50 ريال، وبدل ما تروح في 'دروب الضياع'.. ابدأ بأبسط التفاصيل، فمشوار الألف ميل، يبيله قلبٍ صامل وعقلٍ ثقيل.</p>
             </div>
         </div>
     </section>
