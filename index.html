@@ -54,24 +54,43 @@
 
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; width: 100%; margin-top: 30px; }
         
-        /* تعديل السلايدر ليكون لا نهائي بدون فراغ أسود */
-        .slider-container { width: 100%; overflow: hidden; padding: 40px 0; position: relative; }
-        .logo-track { display: flex; width: max-content; animation: scroll 20s linear infinite; }
+        /* --- الإصلاح النهائي للسلايدر اللا نهائي --- */
+        .slider-container { 
+            width: 100%; 
+            overflow: hidden; 
+            padding: 40px 0; 
+            position: relative; 
+            white-space: nowrap;
+        }
         
-        /* الأنيميشن الجديد */
-        @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(calc(-250px * 4)); } /* يتحرك بمقدار عرض العناصر الأصلية */
+        .logo-track { 
+            display: inline-flex; 
+            width: max-content; 
+            animation: scroll 30s linear infinite; 
         }
 
-        .logo-item { width: 250px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; }
+        @keyframes scroll {
+            from { transform: translateX(0); }
+            /* يتحرك بمقدار ثلث العرض لأننا كررنا العناصر 3 مرات لضمان التغطية كاملة */
+            to { transform: translateX(33.33%); } 
+        }
+
+        .logo-item { 
+            width: 250px; 
+            flex-shrink: 0; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            padding: 0 20px;
+        }
         
         .brand-img { 
-            width: 160px; height: 160px; object-fit: contain; 
+            width: 150px; height: 150px; object-fit: contain; 
             margin-bottom: 15px; background: transparent !important; 
             filter: contrast(1.05); transition: 0.3s;
         }
         .brand-img:hover { transform: scale(1.1); }
+        /* -------------------------------------- */
         
         .stat-number { font-size: clamp(2.5rem, 7vw, 3.5rem); font-weight: 900; color: var(--gold); line-height: 1; }
         .sales-img { width: 100%; max-width: 480px; border-radius: 15px; border: 1px solid var(--gold); margin: 15px 0; }
@@ -182,6 +201,12 @@
                 <div class="logo-item"><img src="thwani.png" class="brand-img"><h3>Thwani Store</h3></div>
                 <div class="logo-item"><img src="Vail.png" class="brand-img"><h3>Vail Brand</h3></div>
                 <div class="logo-item"><img src="Ace store.png" class="brand-img"><h3>Ace Store</h3></div>
+                
+                <div class="logo-item"><img src="idea.png" class="brand-img"><h3>IDEA Services</h3></div>
+                <div class="logo-item"><img src="thwani.png" class="brand-img"><h3>Thwani Store</h3></div>
+                <div class="logo-item"><img src="Vail.png" class="brand-img"><h3>Vail Brand</h3></div>
+                <div class="logo-item"><img src="Ace store.png" class="brand-img"><h3>Ace Store</h3></div>
+
                 <div class="logo-item"><img src="idea.png" class="brand-img"><h3>IDEA Services</h3></div>
                 <div class="logo-item"><img src="thwani.png" class="brand-img"><h3>Thwani Store</h3></div>
                 <div class="logo-item"><img src="Vail.png" class="brand-img"><h3>Vail Brand</h3></div>
@@ -232,6 +257,11 @@
                 <div class="logo-item"><img src="كويبو شعار.png" class="brand-img"><h3>CUBO Store</h3></div>
                 <div class="logo-item"><img src="شعار ديب.png" class="brand-img"><h3>Deep Ocean</h3></div>
                 <div class="logo-item"><img src="شعار بيرت.png" class="brand-img"><h3>Pert Brand</h3></div>
+                
+                <div class="logo-item"><img src="كويبو شعار.png" class="brand-img"><h3>CUBO Store</h3></div>
+                <div class="logo-item"><img src="شعار ديب.png" class="brand-img"><h3>Deep Ocean</h3></div>
+                <div class="logo-item"><img src="شعار بيرت.png" class="brand-img"><h3>Pert Brand</h3></div>
+
                 <div class="logo-item"><img src="كويبو شعار.png" class="brand-img"><h3>CUBO Store</h3></div>
                 <div class="logo-item"><img src="شعار ديب.png" class="brand-img"><h3>Deep Ocean</h3></div>
                 <div class="logo-item"><img src="شعار بيرت.png" class="brand-img"><h3>Pert Brand</h3></div>
