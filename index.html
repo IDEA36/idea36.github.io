@@ -5,21 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>إبراهيم الزيد | IDEA Business</title>
     <link rel="icon" href="logo.png" type="image/png">
-
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
-
     <style>
         :root { --gold: #f9b336; --dark: #000; --glass: rgba(255, 255, 255, 0.03); }
-        
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; scroll-behavior: smooth; }
-        html, body { overflow-x: hidden; width: 100%; margin: 0; padding: 0; background-color: #000; }
+        html, body { overflow-x: hidden; width: 100%; margin: 0; padding: 0; background-color: #000; position: relative; }
         body { font-family: 'Cairo', sans-serif; color: white; line-height: 1.6; background-color: #000; }
-
         .bg-black { position: fixed; width: 100%; height: 100%; z-index: -1; top: 0; left: 0; background: #000; }
-
         nav {
             position: fixed; top: 0; width: 100%; padding: 15px 7%;
             background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px);
@@ -29,68 +24,44 @@
         .nav-links { display: flex; gap: 20px; }
         .nav-links a { color: white; text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: 0.3s; }
         .nav-links a:hover { color: var(--gold); }
-        
-        section { padding: 100px 7% 60px; display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; position: relative; z-index: 1; }
+        section { padding: 100px 7% 60px; display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; position: relative; z-index: 1; overflow: hidden; }
         h1 { font-size: clamp(2.2rem, 8vw, 4rem); color: var(--gold); font-weight: 900; letter-spacing: -1px; margin-top: 20px; }
         h2 { font-size: clamp(1.6rem, 6vw, 2.4rem); color: var(--gold); margin-bottom: 40px; font-weight: 800; }
-
         .glass-card {
             background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(249, 179, 54, 0.1); border-radius: 20px; padding: 30px;
             transition: 0.4s ease; width: 100%; position: relative; margin-bottom: 25px;
-            overflow: hidden;
+            overflow: hidden; will-change: transform;
         }
         .glass-card:hover { 
             border-color: var(--gold); 
             box-shadow: 0 0 25px rgba(249, 179, 54, 0.15);
             transform: translateY(-5px);
         }
-
-        .mega-story-card {
-            max-width: 900px;
-            padding: 40px;
-            text-align: justify;
-        }
+        .mega-story-card { max-width: 900px; padding: 40px; text-align: justify; }
         @media (max-width: 768px) {
-            .mega-story-card {
-                padding: 20px;
-                width: 95%;
-            }
-            .mega-story-card p {
-                font-size: 0.95rem !important;
-                line-height: 1.6 !important;
-            }
-            .quran-text {
-                font-size: 1.2rem !important;
-            }
+            .mega-story-card { padding: 20px; width: 95%; }
+            .mega-story-card p { font-size: 0.95rem !important; line-height: 1.6 !important; }
+            .quran-text { font-size: 1.2rem !important; }
         }
-
         .vertical-stack { display: flex; flex-direction: column; gap: 20px; width: 100%; max-width: 800px; }
         .year-block { margin-bottom: 50px; border-right: 2px solid var(--gold); padding-right: 25px; text-align: right; width: 100%; max-width: 850px; }
         .year-block h3 { font-size: clamp(1.3rem, 5vw, 1.8rem); color: var(--gold); margin: 0; }
         .year-block p { font-size: 1rem; color: #bbb; margin-top: 10px; line-height: 1.8; }
-
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; width: 100%; margin-top: 30px; }
-
         .slider-container { width: 100%; overflow: hidden; padding: 30px 0; position: relative; white-space: nowrap; }
-        .logo-track { display: inline-flex; width: max-content; animation: infinite-fast-scroll 12s linear infinite; }
-        
+        .logo-track { display: inline-flex; width: max-content; animation: infinite-fast-scroll 12s linear infinite; will-change: transform; }
         @keyframes infinite-fast-scroll {
             from { transform: translateX(0); }
             to { transform: translateX(33.33%); }
         }
-        
         .logo-item { width: 220px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; padding: 0 20px; }
         .brand-img { width: 140px; height: 140px; object-fit: contain; margin-bottom: 10px; }
-
         .stat-number { font-size: clamp(2.5rem, 7vw, 3.5rem); font-weight: 900; color: var(--gold); line-height: 1; }
         .sales-img { width: 100%; max-width: 480px; border-radius: 15px; border: 1px solid var(--gold); margin: 15px 0; }
-
         .btn-gold { background: var(--gold); color: black; padding: 12px 35px; border-radius: 50px; font-weight: 700; font-size: 1rem; border: none; cursor: pointer; transition: 0.3s; text-decoration: none; display: inline-block; }
         .btn-gold:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(249, 179, 54, 0.2); }
-
         .wa-float { position: fixed; bottom: 30px; left: 30px; background: #25d366; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 1000; box-shadow: 0 8px 15px rgba(0,0,0,0.4); }
-
         .performance-card { background: var(--glass); border: 1px solid rgba(249, 179, 54, 0.2); border-radius: 20px; padding: 24px; width: 100%; max-width: 350px; transition: 0.3s; direction: ltr; }
         .status-live { background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; display: flex; align-items: center; gap: 5px; }
         .dot { width: 6px; height: 6px; background: #10b981; border-radius: 50%; }
@@ -100,7 +71,6 @@
     </style>
 </head>
 <body>
-
     <nav>
         <div style="color: var(--gold); font-weight: 900; font-size: 1.2rem;">IDEA</div>
         <div class="nav-links">
@@ -110,13 +80,10 @@
             <a href="#stats">الأرقام</a>
         </div>
     </nav>
-
     <div class="bg-black"></div>
-
     <a href="https://wa.me/966566110897" class="wa-float" target="_blank">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="30">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="30" loading="lazy">
     </a>
-
     <section>
         <div data-aos="fade-down">
             <p style="color: var(--gold); letter-spacing: 4px; font-weight: 700; font-size: 0.75rem; margin-bottom: 10px;">"Science 2023" </p>
@@ -128,7 +95,6 @@
             <a href="#story" class="btn-gold">اكتشف رحلة IDEA</a>
         </div>
     </section>
-
     <section id="stats">
         <div class="grid">
             <div class="glass-card" data-aos="fade-up">
@@ -145,7 +111,6 @@
             </div>
         </div>
     </section>
-
     <section id="story">
         <h2>طموحنا واحد.. وهدفنا نكبر سوا</h2>
         <div class="glass-card mega-story-card" data-aos="fade-up">
@@ -161,7 +126,6 @@
                 ﴿وَمَا تَوْفِيقِي إِلَّا بِاللَّهِ﴾
             </p>
         </div>
-
         <h2 style="margin-top: 60px;">رحلة الانجاز (2023 - 2026)</h2>
         <div class="year-block" data-aos="fade-right">
             <h3>2023: نقطة الانطلاق الاستراتيجية</h3>
@@ -180,27 +144,21 @@
             <p>اليوم، IDEA هي الوجهة الأولى للجودة والاحترافية. بأكثر من 40 كياناً مطوراً وقاعدة عملاء تتوسع عالمياً، نحن نصنع مستقبل التجارة الحديثة.</p>
         </div>
     </section>
-
     <section id="brands">
         <h2>منظومة IDEA</h2>
         <div class="slider-container">
             <div class="logo-track">
-                <div class="logo-item"><img src="idea.png" class="brand-img"><h3>IDEA Services</h3></div>
-                <div class="logo-item"><img src="thwani.png" class="brand-img"><h3>Thwani Store</h3></div>
-                <div class="logo-item"><img src="Vail.png" class="brand-img"><h3>Vail Brand</h3></div>
-                <div class="logo-item"><img src="Ace store.png" class="brand-img"><h3>Ace Store</h3></div>
-                <div class="logo-item"><img src="idea.png" class="brand-img"><h3>IDEA Services</h3></div>
-                <div class="logo-item"><img src="thwani.png" class="brand-img"><h3>Thwani Store</h3></div>
-                <div class="logo-item"><img src="Vail.png" class="brand-img"><h3>Vail Brand</h3></div>
-                <div class="logo-item"><img src="Ace store.png" class="brand-img"><h3>Ace Store</h3></div>
-                <div class="logo-item"><img src="idea.png" class="brand-img"><h3>IDEA Services</h3></div>
-                <div class="logo-item"><img src="thwani.png" class="brand-img"><h3>Thwani Store</h3></div>
-                <div class="logo-item"><img src="Vail.png" class="brand-img"><h3>Vail Brand</h3></div>
-                <div class="logo-item"><img src="Ace store.png" class="brand-img"><h3>Ace Store</h3></div>
+                <div class="logo-item"><img src="idea.png" class="brand-img" loading="lazy"><h3>IDEA Services</h3></div>
+                <div class="logo-item"><img src="thwani.png" class="brand-img" loading="lazy"><h3>Thwani Store</h3></div>
+                <div class="logo-item"><img src="Vail.png" class="brand-img" loading="lazy"><h3>Vail Brand</h3></div>
+                <div class="logo-item"><img src="Ace store.png" class="brand-img" loading="lazy"><h3>Ace Store</h3></div>
+                <div class="logo-item"><img src="idea.png" class="brand-img" loading="lazy"><h3>IDEA Services</h3></div>
+                <div class="logo-item"><img src="thwani.png" class="brand-img" loading="lazy"><h3>Thwani Store</h3></div>
+                <div class="logo-item"><img src="Vail.png" class="brand-img" loading="lazy"><h3>Vail Brand</h3></div>
+                <div class="logo-item"><img src="Ace store.png" class="brand-img" loading="lazy"><h3>Ace Store</h3></div>
             </div>
         </div>
     </section>
-
     <section>
         <div class="performance-card" data-aos="fade-up">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
@@ -229,24 +187,19 @@
             </div>
         </div>
     </section>
-
     <section id="works">
         <h2>أبرز الأعمال</h2>
         <div class="slider-container">
             <div class="logo-track">
-                <div class="logo-item"><img src="كويبو شعار.png" class="brand-img"><h3>CUBO Store</h3></div>
-                <div class="logo-item"><img src="شعار ديب.png" class="brand-img"><h3>Deep Ocean</h3></div>
-                <div class="logo-item"><img src="شعار بيرت.png" class="brand-img"><h3>Pert Brand</h3></div>
-                <div class="logo-item"><img src="كويبو شعار.png" class="brand-img"><h3>CUBO Store</h3></div>
-                <div class="logo-item"><img src="شعار ديب.png" class="brand-img"><h3>Deep Ocean</h3></div>
-                <div class="logo-item"><img src="شعار بيرت.png" class="brand-img"><h3>Pert Brand</h3></div>
-                <div class="logo-item"><img src="كويبو شعار.png" class="brand-img"><h3>CUBO Store</h3></div>
-                <div class="logo-item"><img src="شعار ديب.png" class="brand-img"><h3>Deep Ocean</h3></div>
-                <div class="logo-item"><img src="شعار بيرت.png" class="brand-img"><h3>Pert Brand</h3></div>
+                <div class="logo-item"><img src="كويبو شعار.png" class="brand-img" loading="lazy"><h3>CUBO Store</h3></div>
+                <div class="logo-item"><img src="شعار ديب.png" class="brand-img" loading="lazy"><h3>Deep Ocean</h3></div>
+                <div class="logo-item"><img src="شعار بيرت.png" class="brand-img" loading="lazy"><h3>Pert Brand</h3></div>
+                <div class="logo-item"><img src="كويبو شعار.png" class="brand-img" loading="lazy"><h3>CUBO Store</h3></div>
+                <div class="logo-item"><img src="شعار ديب.png" class="brand-img" loading="lazy"><h3>Deep Ocean</h3></div>
+                <div class="logo-item"><img src="شعار بيرت.png" class="brand-img" loading="lazy"><h3>Pert Brand</h3></div>
             </div>
         </div>
     </section>
-
     <section>
         <h2> اراء عملاء IDEA</h2>
         <div class="vertical-stack">
@@ -264,7 +217,6 @@
             </div>
         </div>
     </section>
-
     <section>
         <h2 style="text-align: center; margin-bottom: 40px;">الأسئلة الشائعة</h2>
         <div class="vertical-stack">
@@ -282,15 +234,13 @@
             </details>
         </div>
     </section>
-
     <section>
         <h2>لغة الأرقام</h2>
         <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
-            <img src="مبيعات.png" class="sales-img" data-aos="fade-up">
-            <img src="مبيعات جديدة.png" class="sales-img" data-aos="fade-up">
+            <img src="مبيعات.png" class="sales-img" data-aos="fade-up" loading="lazy">
+            <img src="مبيعات جديدة.png" class="sales-img" data-aos="fade-up" loading="lazy">
         </div>
     </section>
-
     <section id="consultation">
         <div style="padding: 40px; border: 1px dashed var(--gold); border-radius: 20px; text-align: center; background: rgba(249, 179, 54, 0.05); width: 100%; max-width: 800px;" data-aos="fade-up">
             <h3 style="color: var(--gold); margin-bottom: 15px; font-size: 1.8rem;">هل تبحث عن استشارة خاصة؟</h3>
@@ -298,9 +248,8 @@
             <a href="https://wa.me/966566110897?text=أريد+طلب+استشارة+تجارية" class="btn-gold" onclick="celebrate()">طلب استشارة تجارية</a>
         </div>
     </section>
-
     <script>
-        AOS.init({ duration: 1000, once: true });
+        AOS.init({ duration: 800, once: true, offset: 50 });
         const counters = document.querySelectorAll('.stat-number');
         const observer = new IntersectionObserver(entries => {
             entries.forEach(entry => {
@@ -308,10 +257,10 @@
                     const target = +entry.target.getAttribute('data-target');
                     let count = 0;
                     const update = () => {
-                        count += target / 100;
+                        count += target / 80;
                         if (count < target) {
                             entry.target.innerText = Math.ceil(count).toLocaleString() + "+";
-                            setTimeout(update, 20);
+                            requestAnimationFrame(update);
                         } else {
                             entry.target.innerText = target.toLocaleString() + "+";
                         }
@@ -320,11 +269,10 @@
                     observer.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.5 });
+        }, { threshold: 0.2 });
         counters.forEach(c => observer.observe(c));
-
         function celebrate() {
-            confetti({ particleCount: 200, spread: 70, origin: { y: 0.6 }, colors: ['#f9b336', '#ffffff'] });
+            confetti({ particleCount: 150, spread: 60, origin: { y: 0.6 }, colors: ['#f9b336', '#ffffff'] });
         }
     </script>
 </body>
