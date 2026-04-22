@@ -68,6 +68,39 @@
         .chart-container { height: 80px; display: flex; align-items: flex-end; justify-content: space-between; gap: 6px; margin: 20px 0; }
         .bar { width: 100%; background: rgba(249, 179, 54, 0.1); border-radius: 4px; position: relative; height: 100%; }
         .bar-fill { position: absolute; bottom: 0; width: 100%; background: var(--gold); border-radius: 4px; transition: 1.5s ease-out; }
+
+        /* --- NEW TOOL STYLES --- */
+        .glass-radio-group {
+          --bg: rgba(255, 255, 255, 0.06);
+          --text: #e5e5e5;
+          display: flex; position: relative; background: var(--bg);
+          border-radius: 1rem; backdrop-filter: blur(12px);
+          box-shadow: inset 1px 1px 4px rgba(255, 255, 255, 0.2), inset -1px -1px 6px rgba(0, 0, 0, 0.3), 0 4px 12px rgba(0, 0, 0, 0.15);
+          overflow: hidden; width: fit-content; margin: 20px auto; direction: ltr;
+        }
+        .glass-radio-group input { display: none; }
+        .glass-radio-group label {
+          flex: 1; display: flex; align-items: center; justify-content: center;
+          min-width: 80px; font-size: 14px; padding: 0.8rem 1.6rem;
+          cursor: pointer; font-weight: 600; letter-spacing: 0.3px;
+          color: var(--text); position: relative; z-index: 2; transition: color 0.3s ease-in-out;
+        }
+        .glass-radio-group label:hover { color: white; }
+        .glass-radio-group input:checked + label { color: #fff; }
+        .glass-glider {
+          position: absolute; top: 0; bottom: 0; width: calc(100% / 3);
+          border-radius: 1rem; z-index: 1;
+          transition: transform 0.5s cubic-bezier(0.37, 1.95, 0.66, 0.56), background 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+        }
+        #glass-silver:checked ~ .glass-glider { transform: translateX(0%); background: linear-gradient(135deg, #c0c0c055, #e0e0e0); box-shadow: 0 0 18px rgba(192, 192, 192, 0.5), 0 0 10px rgba(255, 255, 255, 0.4) inset; }
+        #glass-gold:checked ~ .glass-glider { transform: translateX(100%); background: linear-gradient(135deg, #ffd70055, #ffcc00); box-shadow: 0 0 18px rgba(255, 215, 0, 0.5), 0 0 10px rgba(255, 235, 150, 0.4) inset; }
+        #glass-platinum:checked ~ .glass-glider { transform: translateX(200%); background: linear-gradient(135deg, #d0e7ff55, #a0d8ff); box-shadow: 0 0 18px rgba(160, 216, 255, 0.5), 0 0 10px rgba(200, 240, 255, 0.4) inset; }
+        
+        .tier-content { display: none; margin-top: 20px; animation: fadeIn 0.4s ease forwards; }
+        .tier-content.active { display: block; }
+        .tier-list { list-style: none; padding: 0; text-align: right; max-width: 400px; margin: 0 auto; }
+        .tier-list li { background: rgba(255,255,255,0.05); padding: 10px 15px; border-radius: 8px; margin-bottom: 8px; border-right: 3px solid var(--gold); font-size: 0.95rem; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -95,6 +128,43 @@
             <a href="#story" class="btn-gold">اكتشف رحلة IDEA</a>
         </div>
     </section>
+
+    <section id="tiers">
+        <h2 data-aos="fade-up">اختر مستواك الإبداعي</h2>
+        <div class="glass-radio-group" data-aos="fade-up">
+            <input type="radio" name="tier" id="glass-silver" checked onclick="switchTier('silver')">
+            <label for="glass-silver">SILVER</label>
+            <input type="radio" name="tier" id="glass-gold" onclick="switchTier('gold')">
+            <label for="glass-gold">GOLD</label>
+            <input type="radio" name="tier" id="glass-platinum" onclick="switchTier('platinum')">
+            <label for="glass-platinum">PLATINUM</label>
+            <div class="glass-glider"></div>
+        </div>
+        <div id="silver-content" class="tier-content active">
+            <ul class="tier-list">
+                <li>إنشاء المتجر وتنسيقه الأساسي</li>
+                <li>ربط الدفع والشحن</li>
+                <li>دعم فني لمدة أسبوع</li>
+            </ul>
+        </div>
+        <div id="gold-content" class="tier-content">
+            <ul class="tier-list">
+                <li>كل مميزات السيلفر +</li>
+                <li>تصميم هوية بصرية كاملة</li>
+                <li>تجهيز 3 متاجر إضافية</li>
+                <li>دعم فني أولوية لمدة شهر</li>
+            </ul>
+        </div>
+        <div id="platinum-content" class="tier-content">
+            <ul class="tier-list">
+                <li>كل مميزات الجولد +</li>
+                <li>إدارة شاملة للمنظومة</li>
+                <li>ربط أنظمة الذكاء الاصطناعي</li>
+                <li>دعم مباشر 24/7 مدى الحياة</li>
+            </ul>
+        </div>
+    </section>
+
     <section id="stats">
         <div class="grid">
             <div class="glass-card" data-aos="fade-up">
@@ -111,6 +181,7 @@
             </div>
         </div>
     </section>
+
     <section id="story">
         <h2>طموحنا واحد.. وهدفنا نكبر سوا</h2>
         <div class="glass-card mega-story-card" data-aos="fade-up">
@@ -144,6 +215,7 @@
             <p>اليوم، IDEA هي الوجهة الأولى للجودة والاحترافية. بأكثر من 40 كياناً مطوراً وقاعدة عملاء تتوسع عالمياً، نحن نصنع مستقبل التجارة الحديثة.</p>
         </div>
     </section>
+
     <section id="brands">
         <h2>منظومة IDEA</h2>
         <div class="slider-container">
@@ -159,6 +231,7 @@
             </div>
         </div>
     </section>
+
     <section>
         <div class="performance-card" data-aos="fade-up">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
@@ -187,6 +260,7 @@
             </div>
         </div>
     </section>
+
     <section id="works">
         <h2>أبرز الأعمال</h2>
         <div class="slider-container">
@@ -200,6 +274,7 @@
             </div>
         </div>
     </section>
+
     <section>
         <h2> اراء عملاء IDEA</h2>
         <div class="vertical-stack">
@@ -217,6 +292,7 @@
             </div>
         </div>
     </section>
+
     <section>
         <h2 style="text-align: center; margin-bottom: 40px;">الأسئلة الشائعة</h2>
         <div class="vertical-stack">
@@ -234,6 +310,7 @@
             </details>
         </div>
     </section>
+
     <section>
         <h2>لغة الأرقام</h2>
         <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
@@ -241,6 +318,7 @@
             <img src="مبيعات جديدة.png" class="sales-img" data-aos="fade-up" loading="lazy">
         </div>
     </section>
+
     <section id="consultation">
         <div style="padding: 40px; border: 1px dashed var(--gold); border-radius: 20px; text-align: center; background: rgba(249, 179, 54, 0.05); width: 100%; max-width: 800px;" data-aos="fade-up">
             <h3 style="color: var(--gold); margin-bottom: 15px; font-size: 1.8rem;">هل تبحث عن استشارة خاصة؟</h3>
@@ -248,8 +326,15 @@
             <a href="https://wa.me/966566110897?text=أريد+طلب+استشارة+تجارية" class="btn-gold" onclick="celebrate()">طلب استشارة تجارية</a>
         </div>
     </section>
+
     <script>
         AOS.init({ duration: 800, once: true, offset: 50 });
+        
+        function switchTier(tier) {
+            document.querySelectorAll('.tier-content').forEach(c => c.classList.remove('active'));
+            document.getElementById(tier + '-content').classList.add('active');
+        }
+
         const counters = document.querySelectorAll('.stat-number');
         const observer = new IntersectionObserver(entries => {
             entries.forEach(entry => {
