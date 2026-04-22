@@ -12,28 +12,41 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 
     <style>
-        :root { --gold: #f9b336; --dark: #050505; --glass: rgba(255, 255, 255, 0.02); }
+        :root { --gold: #f9b336; --dark: #000; --glass: rgba(255, 255, 255, 0.03); }
         
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; scroll-behavior: smooth; }
         html, body { overflow-x: hidden; width: 100%; margin: 0; padding: 0; background-color: #000; }
         body { font-family: 'Cairo', sans-serif; color: white; line-height: 1.6; background-color: #000; }
 
-        /* تم إزالة كود النجوم والاكتفاء بالخلفية السوداء */
         .bg-black { position: fixed; width: 100%; height: 100%; z-index: -1; top: 0; left: 0; background: #000; }
+
+        nav {
+            position: fixed; top: 0; width: 100%; padding: 15px 7%;
+            background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px);
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 2000; border-bottom: 1px solid rgba(249, 179, 54, 0.1);
+        }
+        .nav-links { display: flex; gap: 20px; }
+        .nav-links a { color: white; text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: 0.3s; }
+        .nav-links a:hover { color: var(--gold); }
         
-        section { padding: 60px 7%; display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; position: relative; z-index: 1; }
-        h1 { font-size: clamp(2.2rem, 8vw, 4rem); color: var(--gold); font-weight: 900; letter-spacing: -1px; }
+        section { padding: 100px 7% 60px; display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; position: relative; z-index: 1; }
+        h1 { font-size: clamp(2.2rem, 8vw, 4rem); color: var(--gold); font-weight: 900; letter-spacing: -1px; margin-top: 20px; }
         h2 { font-size: clamp(1.6rem, 6vw, 2.4rem); color: var(--gold); margin-bottom: 40px; font-weight: 800; }
 
         .glass-card {
             background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(249, 179, 54, 0.1); border-radius: 20px; padding: 30px;
             transition: 0.4s ease; width: 100%; position: relative; margin-bottom: 25px;
+            overflow: hidden;
         }
-        .glass-card:hover { border-color: var(--gold); box-shadow: 0 0 30px rgba(249, 179, 54, 0.05); }
+        .glass-card:hover { 
+            border-color: var(--gold); 
+            box-shadow: 0 0 25px rgba(249, 179, 54, 0.15);
+            transform: translateY(-5px);
+        }
 
         .vertical-stack { display: flex; flex-direction: column; gap: 20px; width: 100%; max-width: 800px; }
-
         .mega-story { max-width: 850px; text-align: right; width: 100%; }
         .year-block { margin-bottom: 50px; border-right: 2px solid var(--gold); padding-right: 25px; }
         .year-block h3 { font-size: clamp(1.3rem, 5vw, 1.8rem); color: var(--gold); margin: 0; }
@@ -41,14 +54,24 @@
 
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; width: 100%; margin-top: 30px; }
         
-        .brand-img { 
-            width: 160px; 
-            height: 160px; 
-            object-fit: contain; 
-            margin-bottom: 15px; 
-            background: transparent !important; 
-            filter: contrast(1.05);
+        /* تعديل السلايدر ليكون لا نهائي بدون فراغ أسود */
+        .slider-container { width: 100%; overflow: hidden; padding: 40px 0; position: relative; }
+        .logo-track { display: flex; width: max-content; animation: scroll 20s linear infinite; }
+        
+        /* الأنيميشن الجديد */
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(-250px * 4)); } /* يتحرك بمقدار عرض العناصر الأصلية */
         }
+
+        .logo-item { width: 250px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; }
+        
+        .brand-img { 
+            width: 160px; height: 160px; object-fit: contain; 
+            margin-bottom: 15px; background: transparent !important; 
+            filter: contrast(1.05); transition: 0.3s;
+        }
+        .brand-img:hover { transform: scale(1.1); }
         
         .stat-number { font-size: clamp(2.5rem, 7vw, 3.5rem); font-weight: 900; color: var(--gold); line-height: 1; }
         .sales-img { width: 100%; max-width: 480px; border-radius: 15px; border: 1px solid var(--gold); margin: 15px 0; }
@@ -63,11 +86,21 @@
         .dot { width: 6px; height: 6px; background: #10b981; border-radius: 50%; }
         .chart-container { height: 80px; display: flex; align-items: flex-end; justify-content: space-between; gap: 6px; margin: 20px 0; }
         .bar { width: 100%; background: rgba(249, 179, 54, 0.1); border-radius: 4px; position: relative; height: 100%; }
-        .bar-fill { position: absolute; bottom: 0; width: 100%; background: var(--gold); border-radius: 4px; transition: 1s; }
+        .bar-fill { position: absolute; bottom: 0; width: 100%; background: var(--gold); border-radius: 4px; transition: 1.5s ease-out; }
 
     </style>
 </head>
 <body>
+
+    <nav>
+        <div style="color: var(--gold); font-weight: 900; font-size: 1.2rem;">IDEA</div>
+        <div class="nav-links">
+            <a href="#story">رحلتنا</a>
+            <a href="#brands">منظومتنا</a>
+            <a href="#works">أعمالنا</a>
+            <a href="#stats">الأرقام</a>
+        </div>
+    </nav>
 
     <div class="bg-black"></div>
 
@@ -105,7 +138,22 @@
     </section>
 
     <section id="story">
-        <h2>قصة انجازنا (2023 - 2026)</h2>
+        <h2>طموحنا واحد.. وهدفنا نكبر سوا</h2>
+        <div class="glass-card mega-story" data-aos="fade-up" style="text-align: right; padding: 40px; margin-bottom: 60px;">
+            <p style="font-size: 1.1rem; color: #fff; line-height: 2;">
+                في <b>IDEA</b>، نؤمن إن أجمل النجاحات هي اللي تبدأ بفكرة بسيطة وإصرار كبير.
+                قصتنا بدت من شغف حقيقي بعالم التجارة، ومن رغبة إننا نثبت إن الإبداع ماله عمر محدد. إحنا ما نعتبر أنفسنا مجرد مزودي خدمات، بل جزء من مجتمع طموح يسعى للأفضل دائماً.
+                كل متجر نجهزه، وكل فكرة نطورها، هي خطوة نمشيها مع بعض في هذا الطريق الرقمي الواسع. هدفنا إننا نكون العون لبعض، نتبادل الخبرة ونبني كيانات تجارية تفتخرون فيها.
+            </p>
+            <p style="font-size: 1.2rem; color: var(--gold); font-weight: bold; margin-top: 30px;">
+                نحن هنا لنصنع الفارق في مسيرتكم التجارية، وبثقةٍ راسخة تذكروا قوله تعالى:
+            </p>
+            <p style="font-size: 1.5rem; color: var(--gold); font-weight: 900; margin-top: 15px; text-align: center;">
+                ﴿وَمَا تَوْفِيقِي إِلَّا بِاللَّهِ ۚ عَلَيْهِ تَوَكَّلْتُ وَإِلَيْهِ أُنِيبُ﴾
+            </p>
+        </div>
+
+        <h2>رحلة الانجاز (2023 - 2026)</h2>
         <div class="mega-story">
             <div class="year-block" data-aos="fade-right">
                 <h3>2023: نقطة الانطلاق الاستراتيجية</h3>
@@ -123,28 +171,22 @@
                 <h3>2026: النضج والقيادة الرقمية</h3>
                 <p>اليوم، IDEA هي الوجهة الأولى للجودة والاحترافية. بأكثر من 40 كياناً مطوراً وقاعدة عملاء تتوسع عالمياً، نحن نصنع مستقبل التجارة الحديثة.</p>
             </div>
-            <div class="year-block" data-aos="fade-right">
-                <h3>رسالة IDEA: كيف تبدا من لا شيئ</h3>
-                <p>"في IDEA، نؤمن إن أجمل النجاحات هي اللي تبدأ بفكرة بسيطة وإصرار كبير.
-
-قصتنا بدت من شغف حقيقي بعالم التجارة، ومن رغبة إننا نثبت إن الإبداع ماله عمر محدد. إحنا ما نعتبر أنفسنا مجرد مزودي خدمات، بل جزء من مجتمع طموح يسعى للأفضل دائماً.
-
-كل متجر نجهزه، وكل فكرة نطورها، هي خطوة نمشيها مع بعض في هذا الطريق الرقمي الواسع. هدفنا إننا نكون العون لبعض، نتبادل الخبرة ونبني كيانات تجارية تفتخرون فيها.
-
-نحن هنا لنصنع الفارق في مسيرتكم التجارية، وبثقةٍ راسخة تذكروا قوله تعالى:
-
-﴿وَمَا تَوْفِيقِي إِلَّا بِاللَّهِ ۚ عَلَيْهِ تَوَكَّلْتُ وَإِلَيْهِ أُنِيبُ﴾" .</p>
-            </div>
         </div>
     </section>
 
-    <section>
+    <section id="brands">
         <h2>منظومة IDEA</h2>
-        <div class="vertical-stack">
-            <div class="glass-card"><img src="idea.png" class="brand-img"><h3>IDEA Services</h3></div>
-            <div class="glass-card"><img src="thwani.png" class="brand-img"><h3>Thwani Store</h3></div>
-            <div class="glass-card"><img src="Vail.png" class="brand-img"><h3>Vail Brand</h3></div>
-            <div class="glass-card"><img src="Ace store.png" class="brand-img"><h3>Ace Store</h3></div>
+        <div class="slider-container">
+            <div class="logo-track">
+                <div class="logo-item"><img src="idea.png" class="brand-img"><h3>IDEA Services</h3></div>
+                <div class="logo-item"><img src="thwani.png" class="brand-img"><h3>Thwani Store</h3></div>
+                <div class="logo-item"><img src="Vail.png" class="brand-img"><h3>Vail Brand</h3></div>
+                <div class="logo-item"><img src="Ace store.png" class="brand-img"><h3>Ace Store</h3></div>
+                <div class="logo-item"><img src="idea.png" class="brand-img"><h3>IDEA Services</h3></div>
+                <div class="logo-item"><img src="thwani.png" class="brand-img"><h3>Thwani Store</h3></div>
+                <div class="logo-item"><img src="Vail.png" class="brand-img"><h3>Vail Brand</h3></div>
+                <div class="logo-item"><img src="Ace store.png" class="brand-img"><h3>Ace Store</h3></div>
+            </div>
         </div>
     </section>
 
@@ -183,12 +225,17 @@
         </div>
     </section>
 
-    <section>
+    <section id="works">
         <h2>أبرز الأعمال</h2>
-        <div class="vertical-stack">
-            <div class="glass-card"><img src="كويبو شعار.png" class="brand-img"><h3>CUBO Store</h3></div>
-            <div class="glass-card"><img src="شعار ديب.png" class="brand-img"><h3>Deep Ocean</h3></div>
-            <div class="glass-card"><img src="شعار بيرت.png" class="brand-img"><h3>Pert Brand</h3></div>
+        <div class="slider-container" style="direction: ltr;">
+            <div class="logo-track" style="animation-direction: reverse;">
+                <div class="logo-item"><img src="كويبو شعار.png" class="brand-img"><h3>CUBO Store</h3></div>
+                <div class="logo-item"><img src="شعار ديب.png" class="brand-img"><h3>Deep Ocean</h3></div>
+                <div class="logo-item"><img src="شعار بيرت.png" class="brand-img"><h3>Pert Brand</h3></div>
+                <div class="logo-item"><img src="كويبو شعار.png" class="brand-img"><h3>CUBO Store</h3></div>
+                <div class="logo-item"><img src="شعار ديب.png" class="brand-img"><h3>Deep Ocean</h3></div>
+                <div class="logo-item"><img src="شعار بيرت.png" class="brand-img"><h3>Pert Brand</h3></div>
+            </div>
         </div>
     </section>
 
@@ -259,15 +306,20 @@
                 if (entry.isIntersecting) {
                     const target = +entry.target.getAttribute('data-target');
                     let count = 0;
+                    const duration = 2000; 
+                    const increment = target / (duration / 20);
+
                     const update = () => {
-                        const inc = target / 60;
+                        count += increment;
                         if (count < target) {
-                            count += inc;
-                            entry.target.innerText = Math.ceil(count) + "+";
+                            entry.target.innerText = Math.ceil(count).toLocaleString() + "+";
                             setTimeout(update, 20);
-                        } else { entry.target.innerText = target + "+"; }
+                        } else {
+                            entry.target.innerText = target.toLocaleString() + "+";
+                        }
                     };
-                    update(); observer.unobserve(entry.target);
+                    update();
+                    observer.unobserve(entry.target);
                 }
             });
         }, { threshold: 0.5 });
