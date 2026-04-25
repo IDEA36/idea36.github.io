@@ -21,20 +21,50 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
-        :root { --gold: #f9b336; --dark: #000; --glass: rgba(255, 255, 255, 0.03); }
+        :root { 
+            --gold: #f9b336; 
+            --bg-color: #000; 
+            --text-color: white;
+            --nav-bg: rgba(0, 0, 0, 0.8);
+            --glass: rgba(255, 255, 255, 0.03); 
+        }
+        
+        /* ألوان وضع النهار */
+        .light-mode {
+            --bg-color: #ffffff;
+            --text-color: #222;
+            --nav-bg: rgba(255, 255, 255, 0.9);
+            --glass: rgba(0, 0, 0, 0.05);
+        }
+
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; scroll-behavior: smooth; }
-        html, body { overflow-x: hidden; width: 100%; margin: 0; padding: 0; background-color: #000; position: relative; }
-        body { font-family: 'Cairo', sans-serif; color: white; line-height: 1.6; background-color: #000; }
-        .bg-black { position: fixed; width: 100%; height: 100%; z-index: -1; top: 0; left: 0; background: #000; }
+        html, body { overflow-x: hidden; width: 100%; margin: 0; padding: 0; background-color: var(--bg-color); position: relative; transition: background 0.3s; }
+        body { font-family: 'Cairo', sans-serif; color: var(--text-color); line-height: 1.6; }
+        .bg-black { position: fixed; width: 100%; height: 100%; z-index: -1; top: 0; left: 0; background: var(--bg-color); }
+        
         nav {
             position: fixed; top: 0; width: 100%; padding: 15px 7%;
-            background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px);
+            background: var(--nav-bg); backdrop-filter: blur(10px);
             display: flex; justify-content: space-between; align-items: center;
             z-index: 2000; border-bottom: 1px solid rgba(249, 179, 54, 0.1);
         }
-        .nav-links { display: flex; gap: 20px; }
-        .nav-links a { color: white; text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: 0.3s; }
+        .nav-links { display: flex; gap: 20px; align-items: center; }
+        .nav-links a { color: var(--text-color); text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: 0.3s; }
         .nav-links a:hover { color: var(--gold); }
+        
+        /* زر تبديل الوضع */
+        .theme-toggle {
+            cursor: pointer;
+            background: var(--gold);
+            border: none;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-family: 'Cairo';
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #000;
+        }
+
         section { padding: 100px 7% 60px; display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; position: relative; z-index: 1; overflow: hidden; }
         h1 { font-size: clamp(2.2rem, 8vw, 4rem); color: var(--gold); font-weight: 900; letter-spacing: -1px; margin-top: 20px; }
         h2 { font-size: clamp(1.6rem, 6vw, 2.4rem); color: var(--gold); margin-bottom: 40px; font-weight: 800; }
@@ -42,7 +72,7 @@
             background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(249, 179, 54, 0.1); border-radius: 20px; padding: 30px;
             transition: 0.4s ease; width: 100%; position: relative; margin-bottom: 25px;
-            overflow: hidden; will-change: transform;
+            overflow: hidden; will-change: transform; color: var(--text-color);
         }
         .glass-card:hover { 
             border-color: var(--gold); 
@@ -58,7 +88,7 @@
         .vertical-stack { display: flex; flex-direction: column; gap: 20px; width: 100%; max-width: 800px; }
         .year-block { margin-bottom: 50px; border-right: 2px solid var(--gold); padding-right: 25px; text-align: right; width: 100%; max-width: 850px; }
         .year-block h3 { font-size: clamp(1.3rem, 5vw, 1.8rem); color: var(--gold); margin: 0; }
-        .year-block p { font-size: 1rem; color: #bbb; margin-top: 10px; line-height: 1.8; }
+        .year-block p { font-size: 1rem; color: #888; margin-top: 10px; line-height: 1.8; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; width: 100%; margin-top: 30px; }
         .slider-container { width: 100%; overflow: hidden; padding: 30px 0; position: relative; white-space: nowrap; }
         .logo-track { display: inline-flex; width: max-content; animation: infinite-fast-scroll 12s linear infinite; will-change: transform; }
@@ -80,7 +110,6 @@
         .bar { width: 100%; background: rgba(249, 179, 54, 0.1); border-radius: 4px; position: relative; height: 100%; }
         .bar-fill { position: absolute; bottom: 0; width: 100%; background: var(--gold); border-radius: 4px; transition: 1.5s ease-out; }
 
-        /* --- NEW TOOL STYLES --- */
         .glass-radio-group {
           --bg: rgba(255, 255, 255, 0.06);
           --text: #e5e5e5;
@@ -122,6 +151,7 @@
             <a href="#brands">منظومتنا</a>
             <a href="#works">أعمالنا</a>
             <a href="#stats">الأرقام</a>
+            <button class="theme-toggle" onclick="toggleTheme()">تبديل للوضع النهاري</button>
         </div>
     </nav>
     <div class="bg-black"></div>
@@ -132,7 +162,7 @@
         <div data-aos="fade-down">
             <p style="color: var(--gold); letter-spacing: 4px; font-weight: 700; font-size: 0.75rem; margin-bottom: 10px;">"Science 2023" </p>
             <h1>إبراهيم الزيد</h1>
-            <p style="font-size: clamp(1.1rem, 4vw, 1.6rem); color: #fff; margin-top: 5px; font-weight: 600;">مؤسس منظومة IDEA الرقمية</p>
+            <p style="font-size: clamp(1.1rem, 4vw, 1.6rem); color: var(--text-color); margin-top: 5px; font-weight: 600;">مؤسس منظومة IDEA الرقمية</p>
             <p style="max-width: 650px; color: #888; font-size: 0.95rem; margin: 20px auto; line-height: 1.7;">
                 نصمم هويات تجارية تتجاوز التوقعات، ونبني أنظمة بيعية متكاملة تعيد تعريف التجارة الرقمية بلمسة احترافية.
             </p>
@@ -196,7 +226,7 @@
     <section id="story">
         <h2>طموحنا واحد.. وهدفنا نكبر سوا</h2>
         <div class="glass-card mega-story-card" data-aos="fade-up">
-            <p style="font-size: 1.1rem; color: #fff; line-height: 1.8; margin-bottom: 20px;">
+            <p style="font-size: 1.1rem; color: var(--text-color); line-height: 1.8; margin-bottom: 20px;">
                 في <b>IDEA</b>، نؤمن إن أجمل النجاحات هي اللي تبدأ بفكرة بسيطة وإصرار كبير.
                 قصتنا بدت من شغف حقيقي بعالم التجارة، ومن رغبة إننا نثبت إن الإبداع ماله عمر محدد. إحنا ما نعتبر أنفسنا مجرد مزودي خدمات، بل جزء من مجتمع طموح يسعى للأفضل دائماً.
                 كل متجر نجهزه، وكل فكرة نطورها، هي خطوة نمشيها مع بعض في هذا الطريق الرقمي الواسع. هدفنا إننا نكون العون لبعض، نتبادل الخبرة ونبني كيانات تجارية تفتخرون فيها.
@@ -309,15 +339,15 @@
         <div class="vertical-stack">
             <details class="glass-card" style="padding: 15px; cursor: pointer; text-align: right;">
                 <summary style="font-weight: 700; color: var(--gold); list-style: none;">كيف أضمن حقي مع منظومة IDEA؟</summary>
-                <div style="padding-top: 15px; color: #ccc;">نحن نلتزم بتقديم خدماتنا وفق أعلى معايير الموثوقية، مع تقديم ضمانات حقيقية على جودة التنفيذ والدعم الفني المستمر.</div>
+                <div style="padding-top: 15px; color: #888;">نحن نلتزم بتقديم خدماتنا وفق أعلى معايير الموثوقية، مع تقديم ضمانات حقيقية على جودة التنفيذ والدعم الفني المستمر.</div>
             </details>
             <details class="glass-card" style="padding: 15px; cursor: pointer; text-align: right;">
                 <summary style="font-weight: 700; color: var(--gold); list-style: none;">هل تقدمون خدمات الاستشارات للتجار الجدد؟</summary>
-                <div style="padding-top: 15px; color: #ccc;">بكل تأكيد، تخصصنا هو مرافقتك من مرحلة الفكرة إلى التنفيذ الكامل؛ نجهز لك المتجر، الهوية التجارية، والربط التقني.</div>
+                <div style="padding-top: 15px; color: #888;">بكل تأكيد، تخصصنا هو مرافقتك من مرحلة الفكرة إلى التنفيذ الكامل؛ نجهز لك المتجر، الهوية التجارية، والربط التقني.</div>
             </details>
             <details class="glass-card" style="padding: 15px; cursor: pointer; text-align: right;">
                 <summary style="font-weight: 700; color: var(--gold); list-style: none;">ما هي المدة المستغرقة لتجهيز المتجر؟</summary>
-                <div style="padding-top: 15px; color: #ccc;">نحن نفتخر بالسرعة؛ أغلب المتاجر يتم تسليمها خلال 3 إلى 7 أيام عمل بجودة واحترافية كاملة.</div>
+                <div style="padding-top: 15px; color: #888;">نحن نفتخر بالسرعة؛ أغلب المتاجر يتم تسليمها خلال 3 إلى 7 أيام عمل بجودة واحترافية كاملة.</div>
             </details>
         </div>
     </section>
@@ -333,7 +363,7 @@
     <section id="consultation">
         <div style="padding: 40px; border: 1px dashed var(--gold); border-radius: 20px; text-align: center; background: rgba(249, 179, 54, 0.05); width: 100%; max-width: 800px;" data-aos="fade-up">
             <h3 style="color: var(--gold); margin-bottom: 15px; font-size: 1.8rem;">هل تبحث عن استشارة خاصة؟</h3>
-            <p style="color: #fff; margin-bottom: 25px;">نساعدك في رسم استراتيجية متجرك القادم واختيار التوجه الصحيح مع خبراء IDEA.</p>
+            <p style="color: var(--text-color); margin-bottom: 25px;">نساعدك في رسم استراتيجية متجرك القادم واختيار التوجه الصحيح مع خبراء IDEA.</p>
             <a href="https://wa.me/966566110897?text=أريد+طلب+استشارة+تجارية" class="btn-gold" onclick="celebrate()">طلب استشارة تجارية</a>
         </div>
     </section>
@@ -344,6 +374,18 @@
         function switchTier(tier) {
             document.querySelectorAll('.tier-content').forEach(c => c.classList.remove('active'));
             document.getElementById(tier + '-content').classList.add('active');
+        }
+
+        // كود تبديل الوضع (ليل/نهار)
+        function toggleTheme() {
+            document.body.classList.toggle('light-mode');
+            const isLight = document.body.classList.contains('light-mode');
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        }
+
+        // حفظ تفضيل المستخدم
+        if (localStorage.getItem('theme') === 'light') {
+            document.body.classList.add('light-mode');
         }
 
         const counters = document.querySelectorAll('.stat-number');
