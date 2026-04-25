@@ -13,8 +13,8 @@
   "jobTitle": "Founder of IDEA Business",
   "description": "رائد أعمال ومؤسس منظومة IDEA، خبير في التجارة الإلكترونية وحاصل على شهادة الأمن السيبراني من أكاديمية طويق.",
   "image": [
-    "https://idea36.github.io/ibrahim-1.png",
-    "https://idea36.github.io/ibrahim-2.png"
+    "https://idea36.github.io/ibrahim-1.png.jpeg",
+    "https://idea36.github.io/ibrahim-2.png.jpeg"
   ],
   "knowsAbout": ["E-commerce", "Digital Marketing", "Python Programming", "Cybersecurity"]
 }
@@ -68,6 +68,12 @@
             font-size: 0.75rem;
             font-weight: bold;
             color: #000;
+        }
+
+        /* تنسيق القسم السري المضاف */
+        #secret-profile-section {
+            display: none; opacity: 0; transition: opacity 0.5s ease;
+            padding: 120px 7% 40px; width: 100%; max-width: 1000px; margin: 0 auto;
         }
 
         section { padding: 100px 7% 60px; display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; position: relative; z-index: 1; overflow: hidden; }
@@ -151,7 +157,7 @@
 </head>
 <body>
     <nav>
-        <div style="color: var(--gold); font-weight: 900; font-size: 1.2rem;">IDEA</div>
+        <div id="logo-trigger" style="color: var(--gold); font-weight: 900; font-size: 1.2rem; cursor: pointer; user-select: none;">IDEA</div>
         <div class="nav-links">
             <a href="#story">رحلتنا</a>
             <a href="#brands">منظومتنا</a>
@@ -165,11 +171,28 @@
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="30" loading="lazy">
     </a>
 
+    <div id="secret-profile-section">
+        <div class="glass-card" style="display: flex; flex-wrap: wrap; gap: 20px; align-items: center; justify-content: center; text-align: right;">
+            <div style="flex: 1; min-width: 300px;">
+                <h2 style="margin-bottom: 15px;">عن مؤسس المنظومة</h2>
+                <p>بدأت رحلتي في عالم التجارة الرقمية وأنا في سن الـ 16 عام 2023. شغفي بالتقنية دفعني لتأسيس IDEA Business لتمكين التجار.</p>
+                <ul class="tier-list" style="margin-top: 20px;">
+                    <li>خبير معتمد في الأمن السيبراني من <b>أكاديمية طويق</b>.</li>
+                    <li>عضو بارز في برامج <b>مؤسسة مسك</b> للموهبة والإبداع.</li>
+                </ul>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <img src="ibrahim-1.png.jpeg" alt="إبراهيم الزيد" style="width: 150px; border-radius: 15px; border: 2px solid var(--gold);">
+                <img src="ibrahim-2.png.jpeg" alt="Ibrahim" style="width: 150px; border-radius: 15px; border: 2px solid var(--gold);">
+            </div>
+        </div>
+    </div>
+
     <div id="google-seo-identity" style="display: none; visibility: hidden; height: 0; width: 0; overflow: hidden;">
         <h1>إبراهيم الزيد - Ibrahim Al-Zaid</h1>
         <p>مؤسس منظومة آيديا الرقمية. رائد أعمال متميز بخبرة في التجارة الإلكترونية، حاصل على شهادات معتمدة في الأمن السيبراني من أكاديمية طويق ومسك.</p>
-        <img src="ibrahim-1.png" alt="إبراهيم الزيد مؤسس آيديا">
-        <img src="ibrahim-2.png" alt="Ibrahim Alzaid">
+        <img src="ibrahim-1.png.jpeg" alt="إبراهيم الزيد مؤسس آيديا">
+        <img src="ibrahim-2.png.jpeg" alt="Ibrahim Alzaid">
     </div>
 
     <section>
@@ -384,6 +407,20 @@
 
     <script>
         AOS.init({ duration: 800, once: true, offset: 50 });
+
+        // كود مفتاح السر المضاف
+        let secretCount = 0;
+        document.getElementById('logo-trigger').addEventListener('click', function() {
+            secretCount++;
+            if (secretCount === 5) {
+                const section = document.getElementById('secret-profile-section');
+                const isHidden = section.style.display === 'none' || section.style.display === '';
+                section.style.display = isHidden ? 'block' : 'none';
+                setTimeout(() => { section.style.opacity = isHidden ? '1' : '0'; }, 10);
+                secretCount = 0;
+                if(isHidden) celebrate();
+            }
+        });
         
         function switchTier(tier) {
             document.querySelectorAll('.tier-content').forEach(c => c.classList.remove('active'));
@@ -421,6 +458,7 @@
             });
         }, { threshold: 0.2 });
         counters.forEach(c => observer.observe(c));
+        
         function celebrate() {
             confetti({ particleCount: 150, spread: 60, origin: { y: 0.6 }, colors: ['#f9b336', '#ffffff'] });
         }
